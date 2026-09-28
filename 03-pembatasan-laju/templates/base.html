@@ -1,0 +1,51 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block judul %}{{ judul_lab }}{% endblock %} — Laboratorium</title>
+  <link rel="stylesheet" href="{% static 'gaya.css' %}">
+</head>
+<body>
+  <a class="lewati" href="#meja">Langsung ke meja kerja</a>
+  <header class="rak">
+    <div class="rak-nama">
+      <span class="rak-kode">{{ nomor_lab }}</span>
+      <div>
+        <p class="alis">Laboratorium infrastruktur</p>
+        <h1>{{ judul_lab }}</h1>
+      </div>
+    </div>
+    <ol class="instrumen">
+      {% for item in instrumen %}
+        <li>
+          <span class="lampu {{ item.lampu }}"></span>
+          <span>
+            <span class="label">{{ item.label }}</span><br>
+            <strong>{{ item.nilai }}</strong>
+          </span>
+        </li>
+      {% endfor %}
+    </ol>
+  </header>
+  {% if messages %}
+    <ul class="pesan">
+      {% for message in messages %}
+        <li class="pesan-{{ message.tags }}">{{ message }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+  <div class="bangku">
+    <main class="meja" id="meja">
+      {% block isi %}{% endblock %}
+    </main>
+    <aside class="catatan">
+      {% block catatan %}{% endblock %}
+    </aside>
+  </div>
+  <footer>
+    <p>Urutan: 01-otentikasi, 02-otorisasi, 03-pembatasan-laju, 04-penyeimbang-beban, 05-cache, 06-antrean-pesan, 07-aliran-peristiwa, 08-penjadwalan, 09-pemrosesan-latar.</p>
+  </footer>
+</body>
+</html>

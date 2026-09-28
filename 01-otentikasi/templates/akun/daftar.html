@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block judul %}Buat akun{% endblock %}
+{% block isi %}
+  <h2>Buat akun</h2>
+  <form method="post" class="tumpuk">
+    {% csrf_token %}
+    {% if form.non_field_errors %}<div class="galat">{{ form.non_field_errors }}</div>{% endif %}
+    <label>Nama pengguna {{ form.username }} {{ form.username.errors }}</label>
+    <label>Surel {{ form.email }} {{ form.email.errors }}</label>
+    <label>Kata sandi {{ form.password1 }} {{ form.password1.errors }}</label>
+    <label>Ulangi kata sandi {{ form.password2 }} {{ form.password2.errors }}</label>
+    <button type="submit">Buat akun</button>
+  </form>
+{% endblock %}
+{% block catatan %}
+  <h2>Validator</h2>
+  <p>Kata sandi yang terlalu pendek, terlalu umum, atau hanya angka ditolak sebelum hash-nya disimpan. Surel dipakai untuk setel ulang.</p>
+{% endblock %}

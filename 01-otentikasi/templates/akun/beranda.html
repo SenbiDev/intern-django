@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block isi %}
+  <h2>Dua cara membuktikan siapa Anda</h2>
+  <p>Sesi menyimpan keadaan di server dan memberi browser sebuah cookie. Token adalah rahasia yang klien simpan sendiri dan kirim pada setiap permintaan.</p>
+  <div class="kisi">
+    <section class="kotak">
+      <h3>Sesi</h3>
+      <p>Cocok untuk halaman yang dibuka manusia. Django yang menaruh cookie <code>sessionid</code>.</p>
+      <div class="baris">
+        <a class="tombol" href="{% url 'masuk' %}">Masuk</a>
+        <a class="tombol sunyi" href="{% url 'daftar' %}">Buat akun</a>
+      </div>
+    </section>
+    <section class="kotak">
+      <h3>Token</h3>
+      <p>Cocok untuk program lain. Tidak ada cookie. Header-nya <code>Authorization: Bearer …</code>.</p>
+      <p class="kabut">Terbitkan token dari halaman profil setelah masuk.</p>
+    </section>
+  </div>
+  {% if user.is_authenticated %}
+    <p><a class="tombol" href="{% url 'profil' %}">Buka profil</a></p>
+  {% endif %}
+{% endblock %}
+{% block catatan %}
+  <h2>Yang diperlihatkan</h2>
+  <ol>
+    <li>Kata sandi tidak pernah disimpan sebagai teks.</li>
+    <li>Masuk lewat formulir membuat sesi.</li>
+    <li>Token yang dicabut langsung ditolak.</li>
+  </ol>
+  <p>Akun latihan: <code>adi</code> / <code>belajar-adi</code>.</p>
+{% endblock %}

@@ -1,0 +1,6 @@
+Seseorang meminta setel ulang kata sandi untuk akun {{ user.get_username }}.
+
+Buka tautan ini:
+{{ protocol }}://{{ domain }}{% url 'baru' uidb64=uid token=token %}
+
+Jika Anda tidak meminta ini, abaikan pesan ini.

@@ -1,0 +1,20 @@
+# Bytecode Python — dibuat ulang setiap kali kode dijalankan
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Basis data lokal — dibuat ulang dengan migrate lalu siapkan
+db.sqlite3
+db.sqlite3-journal
+
+# Lingkungan virtual dan rahasia
+.venv/
+venv/
+env/
+.env
+.env.*
+
+# Keluaran Django
+*.log
+media/
+staticfiles/

@@ -1,0 +1,361 @@
+:root {
+  --baja: #d7dee7;
+  --panel: #f4f7fa;
+  --panel-2: #e7eef4;
+  --tinta: #17212b;
+  --kabut: #4e5e6c;
+  --bezel: #7e92a4;
+  --tembaga: #9a4314;
+  --tembaga-tekan: #7c350f;
+  --lampu: #0e7a56;
+  --amber: #8a5a00;
+  --gangguan: #9f1239;
+  --bayang: 0 1px 0 rgba(255, 255, 255, 0.75) inset, 0 0 0 1px rgba(23, 33, 43, 0.16);
+  --tampil: Bahnschrift, "Segoe UI", sans-serif;
+  --isi: "Segoe UI", sans-serif;
+  --data: "Cascadia Mono", Consolas, monospace;
+}
+
+* { box-sizing: border-box; }
+
+html { font-size: 100%; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.45), transparent 9rem),
+    var(--baja);
+  color: var(--tinta);
+  font-family: var(--isi);
+  line-height: 1.5;
+}
+
+a { color: var(--tembaga); }
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--tembaga);
+  outline-offset: 2px;
+}
+
+.lewati {
+  position: absolute;
+  left: 0.75rem;
+  top: 0.75rem;
+  transform: translateY(-200%);
+  background: white;
+  color: var(--tinta);
+  padding: 0.35rem 0.6rem;
+  z-index: 5;
+}
+
+.lewati:focus { transform: none; }
+
+.rak {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 2rem;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: 1rem 1.4rem;
+  background: #1c2731;
+  color: #e7eef3;
+}
+
+.rak-nama {
+  display: flex;
+  gap: 0.85rem;
+  align-items: center;
+}
+
+.rak-kode {
+  font-family: var(--data);
+  font-size: 0.85rem;
+  border: 1px solid #3e5162;
+  padding: 0.35rem 0.5rem;
+  color: #d5e2ec;
+}
+
+.alis {
+  margin: 0;
+  font-family: var(--data);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #b7c7d4;
+}
+
+.rak h1 {
+  margin: 0;
+  font-family: var(--tampil);
+  font-weight: 600;
+  font-size: 1.65rem;
+  letter-spacing: 0.01em;
+  line-height: 1.1;
+}
+
+.instrumen {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin: 0;
+  padding: 0;
+}
+
+.instrumen li {
+  min-width: 7.2rem;
+  background: #121a21;
+  border: 1px solid #314353;
+  padding: 0.35rem 0.6rem 0.4rem;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 0.45rem;
+  align-items: center;
+}
+
+.instrumen .label {
+  font-family: var(--data);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #b7c7d4;
+}
+
+.instrumen strong {
+  grid-column: 2;
+  font-family: var(--data);
+  font-size: 0.92rem;
+  font-weight: 500;
+}
+
+.lampu {
+  grid-row: 1 / span 2;
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
+  background: #4d6070;
+}
+
+.lampu.hidup { background: #3ddc97; }
+.lampu.awas { background: #f0b429; }
+.lampu.mati { background: #ff5d73; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .lampu.hidup { animation: kedip 2.8s ease-in-out infinite; }
+}
+
+@keyframes kedip {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.45; }
+}
+
+.pesan {
+  list-style: none;
+  margin: 0;
+  padding: 0.7rem 1.4rem 0;
+}
+
+.pesan li {
+  background: var(--panel);
+  border-left: 3px solid var(--lampu);
+  padding: 0.45rem 0.7rem;
+  margin-bottom: 0.35rem;
+}
+
+.pesan-error { border-left-color: var(--gangguan); }
+.pesan-warning { border-left-color: var(--amber); }
+
+.bangku {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 18.5rem;
+  gap: 1rem;
+  padding: 1rem 1.4rem 1.5rem;
+  align-items: start;
+}
+
+@media (max-width: 860px) {
+  .bangku { grid-template-columns: 1fr; }
+}
+
+.meja,
+.catatan {
+  background: var(--panel);
+  box-shadow: var(--bayang);
+  padding: 1rem 1.1rem 1.25rem;
+}
+
+.meja h2,
+.catatan h2,
+.meja h3 {
+  font-family: var(--tampil);
+  font-weight: 600;
+  margin: 0 0 0.45rem;
+}
+
+.meja h2,
+.catatan h2 { font-size: 1.15rem; }
+.meja h3 { font-size: 1rem; margin-top: 1.2rem; }
+
+.catatan p,
+.catatan li,
+.meja p { font-size: 0.95rem; }
+
+.catatan ol,
+.catatan ul { margin: 0.3rem 0 0; padding-left: 1.15rem; }
+
+.kabut { color: var(--kabut); }
+
+code,
+.mono,
+.jejak,
+.instrumen strong,
+.instrumen .label,
+.rak-kode,
+.alis,
+th {
+  font-family: var(--data);
+}
+
+.gulir { overflow-x: auto; }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0.6rem 0 1rem;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 0.4rem 0.45rem;
+  border-bottom: 1px solid #d5dee6;
+  vertical-align: top;
+}
+
+th {
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--kabut);
+  font-weight: 500;
+}
+
+form.tumpuk {
+  display: grid;
+  gap: 0.75rem;
+  max-width: 34rem;
+}
+
+label {
+  display: grid;
+  gap: 0.2rem;
+  font-size: 0.92rem;
+}
+
+input,
+select,
+textarea,
+button { font: inherit; color: inherit; }
+
+input,
+select,
+textarea {
+  background: white;
+  border: 1px solid var(--bezel);
+  padding: 0.45rem 0.55rem;
+  width: 100%;
+}
+
+textarea { min-height: 8rem; resize: vertical; }
+
+.baris {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+button,
+.tombol {
+  background: var(--tembaga);
+  color: white;
+  border: 0;
+  padding: 0.5rem 0.8rem;
+  text-decoration: none;
+  display: inline-block;
+  cursor: pointer;
+  font-family: var(--tampil);
+  letter-spacing: 0.01em;
+}
+
+button.sunyi,
+.tombol.sunyi {
+  background: transparent;
+  color: var(--tinta);
+  box-shadow: inset 0 0 0 1px var(--bezel);
+}
+
+button:hover,
+.tombol:hover { background: var(--tembaga-tekan); }
+
+button.sunyi:hover,
+.tombol.sunyi:hover { background: var(--panel-2); }
+
+button:disabled { opacity: 0.55; cursor: not-allowed; }
+
+.jejak {
+  font-size: 0.82rem;
+  background: #121a21;
+  color: #d5e4ee;
+  padding: 0.7rem 0.8rem;
+  overflow: auto;
+  white-space: pre-wrap;
+  margin: 0.6rem 0;
+}
+
+.meter {
+  height: 0.7rem;
+  background: #d5dee6;
+  margin: 0.35rem 0 0.6rem;
+}
+
+.meter > span {
+  display: block;
+  height: 100%;
+  background: var(--lampu);
+  width: 0;
+}
+
+.galat,
+.errorlist {
+  background: #fde8ee;
+  color: var(--gangguan);
+  border-left: 3px solid var(--gangguan);
+  padding: 0.35rem 0.55rem;
+  margin: 0.2rem 0 0;
+  list-style: none;
+}
+
+footer {
+  padding: 0 1.4rem 1.4rem;
+  color: var(--kabut);
+  font-size: 0.85rem;
+}
+
+.kisi {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  gap: 0.7rem;
+}
+
+.kotak {
+  background: var(--panel-2);
+  padding: 0.7rem 0.8rem;
+}
+
+.kotak h3 { margin-top: 0; }

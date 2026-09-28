@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block judul %}Kata sandi baru{% endblock %}
+{% block isi %}
+  <h2>Kata sandi baru</h2>
+  {% if validlink %}
+    <form method="post" class="tumpuk">
+      {% csrf_token %}
+      {% if form.non_field_errors %}<div class="galat">{{ form.non_field_errors }}</div>{% endif %}
+      <label>Kata sandi baru {{ form.new_password1 }} {{ form.new_password1.errors }}</label>
+      <label>Ulangi kata sandi {{ form.new_password2 }} {{ form.new_password2.errors }}</label>
+      <button type="submit">Simpan</button>
+    </form>
+  {% else %}
+    <div class="galat">Tautan ini sudah dipakai atau kedaluwarsa. Minta tautan baru.</div>
+  {% endif %}
+{% endblock %}
+{% block catatan %}
+  <h2>Token di tautan</h2>
+  <p>Bagian terakhir URL adalah token bertanda waktu. Django menolaknya setelah dipakai sekali atau setelah masa berlakunya habis.</p>
+{% endblock %}

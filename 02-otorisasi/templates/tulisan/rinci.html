@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block judul %}{{ tulisan.judul }}{% endblock %}
+{% block isi %}
+  <h2>{{ tulisan.judul }}</h2>
+  <p class="kabut">{{ tulisan.get_status_display }} · {{ tulisan.penulis.get_username }}</p>
+  <p>{{ tulisan.isi|linebreaksbr }}</p>
+  <div class="baris">
+    {% if boleh_sunting %}
+      <a class="tombol" href="{% url 'sunting' tulisan.pk %}">Sunting</a>
+    {% endif %}
+    {% if boleh_terbit %}
+      <form method="post" action="{% url 'terbitkan' tulisan.pk %}">
+        {% csrf_token %}
+        <button type="submit">{% if tulisan.status == "terbit" %}Kembalikan ke draf{% else %}Terbitkan{% endif %}</button>
+      </form>
+    {% endif %}
+    {% if boleh_hapus %}
+      <form method="post" action="{% url 'hapus' tulisan.pk %}">
+        {% csrf_token %}
+        <button class="sunyi" type="submit">Hapus</button>
+      </form>
+    {% endif %}
+    <a class="tombol sunyi" href="{% url 'daftar' %}">Kembali</a>
+  </div>
+  <h3>Keputusan izin</h3>
+  <div class="gulir">
+    <table>
+      <thead><tr><th>Pemeriksaan</th><th>Hasil</th></tr></thead>
+      <tbody>
+        {% for nama, lolos in pemeriksaan %}
+          <tr>
+            <td>{{ nama }}</td>
+            <td>{% if lolos %}ya{% else %}tidak{% endif %}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}
+{% block catatan %}
+  <h2>Dua pertanyaan</h2>
+  <p>Izin model: apakah peran ini boleh menyunting tulisan, secara umum?</p>
+  <p>Izin objek: apakah boleh pada tulisan yang ini? Penulis lolos pertanyaan pertama hanya untuk baris miliknya. Penerbit lolos untuk semua baris karena memegang izin terbit.</p>
+{% endblock %}

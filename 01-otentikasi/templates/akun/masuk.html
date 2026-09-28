@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block judul %}Masuk{% endblock %}
+{% block isi %}
+  <h2>Masuk</h2>
+  <form method="post" class="tumpuk">
+    {% csrf_token %}
+    {% if form.non_field_errors %}<div class="galat">{{ form.non_field_errors }}</div>{% endif %}
+    <label>Nama pengguna {{ form.username }} {{ form.username.errors }}</label>
+    <label>Kata sandi {{ form.password }} {{ form.password.errors }}</label>
+    <div class="baris">
+      <button type="submit">Masuk</button>
+      <a href="{% url 'lupa' %}">Lupa kata sandi</a>
+    </div>
+  </form>
+{% endblock %}
+{% block catatan %}
+  <h2>Di balik formulir</h2>
+  <p><code>authenticate</code> menghitung ulang hash dari kata sandi yang diketik, lalu membandingkannya dengan hash di basis data. Keduanya tidak pernah dibanding sebagai teks polos.</p>
+  <p>Kalau cocok, <code>login</code> menukar kunci sesi supaya sesi lama tidak bisa dipakai lagi.</p>
+{% endblock %}

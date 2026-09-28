@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block judul %}Kata sandi tersimpan{% endblock %}
+{% block isi %}
+  <h2>Kata sandi sudah diganti</h2>
+  <p><a class="tombol" href="{% url 'masuk' %}">Masuk dengan kata sandi baru</a></p>
+{% endblock %}
+{% block catatan %}
+  <h2>Hash ikut berganti</h2>
+  <p>Setelah masuk, lihat panel Hash di rak. Awalannya tetap algoritma yang sama, tetapi isi hash-nya berbeda dari yang tadi.</p>
+{% endblock %}

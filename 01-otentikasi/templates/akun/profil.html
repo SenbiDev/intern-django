@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% block judul %}Profil{% endblock %}
+{% block isi %}
+  <h2>{{ user.get_username }}</h2>
+  <div class="kisi">
+    <section class="kotak">
+      <h3>Hash kata sandi</h3>
+      <p class="jejak">{{ user.password }}</p>
+      <p class="kabut">Ini yang tersimpan. Bukan kata sandi Anda.</p>
+    </section>
+    <section class="kotak">
+      <h3>Kunci sesi</h3>
+      <p class="jejak">{{ kunci_sesi }}</p>
+      <p class="kabut">Nilai yang sama ada di cookie <code>sessionid</code>. Siapa pun yang menyalinnya bisa menyamar sebagai Anda.</p>
+    </section>
+  </div>
+
+  <h3>Token API</h3>
+  <form method="post" action="{% url 'terbitkan' %}">
+    {% csrf_token %}
+    <button type="submit">Terbitkan token</button>
+  </form>
+  {% if token_daftar %}
+    <div class="gulir">
+      <table>
+        <thead>
+          <tr><th>Token</th><th>Terakhir dipakai</th><th></th></tr>
+        </thead>
+        <tbody>
+          {% for token in token_daftar %}
+            <tr>
+              <td class="mono">{{ token.key }}</td>
+              <td>{% if token.terakhir_dipakai %}{{ token.terakhir_dipakai|date:"d M Y H:i" }}{% else %}belum{% endif %}</td>
+              <td>
+                <form method="post" action="{% url 'cabut' token.pk %}">
+                  {% csrf_token %}
+                  <button class="sunyi" type="submit">Cabut</button>
+                </form>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <p>Belum ada token.</p>
+  {% endif %}
+
+  <h3>Coba dari browser</h3>
+  <div class="baris">
+    <button type="button" id="pakai-sesi">Panggil dengan sesi</button>
+    <button type="button" id="pakai-token" {% if not token_terbaru %}disabled{% endif %} data-token="{{ token_terbaru.key }}">Panggil dengan token</button>
+    <button type="button" class="sunyi" id="tanpa-rahasia">Panggil tanpa rahasia</button>
+  </div>
+  <pre class="jejak" id="jawaban">Belum ada panggilan.</pre>
+
+  <div class="baris">
+    <a class="tombol sunyi" href="{% url 'ganti' %}">Ganti kata sandi</a>
+    <form method="post" action="{% url 'keluar' %}">
+      {% csrf_token %}
+      <button class="sunyi" type="submit">Keluar</button>
+    </form>
+  </div>
+  <script>
+    const jawaban = document.getElementById("jawaban");
+    async function tampilkan(respon) {
+      const data = await respon.json();
+      jawaban.textContent = respon.status + "\n" + JSON.stringify(data, null, 2);
+    }
+    document.getElementById("pakai-sesi").addEventListener("click", async () => {
+      tampilkan(await fetch("{% url 'api_profil_sesi' %}"));
+    });
+    document.getElementById("tanpa-rahasia").addEventListener("click", async () => {
+      tampilkan(await fetch("{% url 'api_profil_token' %}"));
+    });
+    const tombolToken = document.getElementById("pakai-token");
+    tombolToken.addEventListener("click", async () => {
+      tampilkan(await fetch("{% url 'api_profil_token' %}", {
+        headers: { Authorization: "Bearer " + tombolToken.dataset.token },
+      }));
+    });
+  </script>
+{% endblock %}
+{% block catatan %}
+  <h2>Bandingkan</h2>
+  <ol>
+    <li>Panggilan sesi ikut cookie, tanpa header tambahan.</li>
+    <li>Panggilan token butuh header, dan tetap berhasil kalau cookie diabaikan.</li>
+    <li>Tanpa keduanya, server menjawab 401.</li>
+  </ol>
+  <p>Di produksi, token biasanya diperlihatkan sekali lalu tidak bisa dibaca lagi.</p>
+{% endblock %}

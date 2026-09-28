@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block isi %}
+  <h2>Delapan permintaan, batas lima</h2>
+  <p>Middleware hanya menghitung path <code>/api/</code>. Halaman ini boleh disegarkan sesuka hati. Tiap tombol mengirim delapan panggilan berurutan dengan algoritma yang berbeda, untuk identitas alamat IP Anda.</p>
+  <div class="baris">
+    <button type="button" data-tembak="jendela_tetap">Jendela tetap</button>
+    <button type="button" data-tembak="jendela_geser">Jendela geser</button>
+    <button type="button" data-tembak="ember_token">Ember token</button>
+  </div>
+  <pre class="jejak" id="hasil">Belum ada panggilan.</pre>
+  <form method="post" action="{% url 'atur_ulang' %}">
+    {% csrf_token %}
+    <button class="sunyi" type="submit">Kosongkan penghitung</button>
+  </form>
+  <script>
+    const hasil = document.getElementById("hasil");
+    document.querySelectorAll("[data-tembak]").forEach((tombol) => {
+      tombol.addEventListener("click", async () => {
+        tombol.disabled = true;
+        hasil.textContent = "";
+        const algoritma = tombol.dataset.tembak;
+        for (let i = 1; i <= 8; i += 1) {
+          const respon = await fetch(`/api/ping/?algoritma=${algoritma}`);
+          const data = await respon.json();
+          const sisa = respon.headers.get("X-RateLimit-Remaining");
+          const ulang = respon.headers.get("Retry-After");
+          hasil.textContent += `${i}. ${respon.status}  sisa ${sisa}  ulang ${ulang} dtk  ${data.pesan || data.detail}\n`;
+        }
+        tombol.disabled = false;
+      });
+    });
+  </script>
+{% endblock %}
+{% block catatan %}
+  <h2>Tiga hitungan</h2>
+  <ul>
+    <li><strong>Jendela tetap.</strong> Lima permintaan per 10 detik kalender. Saat slot berganti, kuota penuh kembali sekaligus.</li>
+    <li><strong>Jendela geser.</strong> Lima cap waktu. Yang lebih tua dari 10 detik dilupakan satu per satu.</li>
+    <li><strong>Ember token.</strong> Mulai penuh, tiap permintaan mengambil satu, dan ember terisi kembali secara merata.</li>
+  </ul>
+  <p>Batas lab ini {{ aturan.batas }} permintaan per {{ aturan.periode }} detik. Header <code>Retry-After</code> memberi tahu klien kapan boleh mencoba lagi.</p>
+  <p>Hitungan ada di Redis, bukan di memori proses. Dua <code>runserver</code> memakai kuota yang sama. Kuncinya diawali <code>rl:</code>.</p>
+{% endblock %}

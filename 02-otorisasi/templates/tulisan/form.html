@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block judul %}{{ aksi }}{% endblock %}
+{% block isi %}
+  <h2>{{ aksi }}</h2>
+  <form method="post" class="tumpuk">
+    {% csrf_token %}
+    {% if form.non_field_errors %}<div class="galat">{{ form.non_field_errors }}</div>{% endif %}
+    <label>Judul {{ form.judul }} {{ form.judul.errors }}</label>
+    <label>Isi {{ form.isi }} {{ form.isi.errors }}</label>
+    <button type="submit">{{ aksi }}</button>
+  </form>
+{% endblock %}
+{% block catatan %}
+  <h2>Status tetap draf</h2>
+  <p>Menyimpan tidak menerbitkan. Menerbitkan adalah aksi terpisah dengan izin terpisah, supaya orang yang boleh menulis tidak otomatis boleh menayangkan.</p>
+{% endblock %}

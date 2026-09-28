@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block judul %}Lupa kata sandi{% endblock %}
+{% block isi %}
+  <h2>Setel ulang kata sandi</h2>
+  <p>Tautannya tidak dikirim ke internet. Ia tercetak di terminal tempat server berjalan.</p>
+  <form method="post" class="tumpuk">
+    {% csrf_token %}
+    {% if form.non_field_errors %}<div class="galat">{{ form.non_field_errors }}</div>{% endif %}
+    <label>Surel {{ form.email }} {{ form.email.errors }}</label>
+    <button type="submit">Cetak tautan</button>
+  </form>
+{% endblock %}
+{% block catatan %}
+  <h2>Mengapa surel</h2>
+  <p>Server tidak boleh memberi tahu apakah suatu nama pengguna ada. Yang diminta hanya surel, dan jawabannya selalu sama: jika ada akun, tautan tercetak.</p>
+  <p>Akun latihan memakai <code>adi@contoh.test</code>.</p>
+{% endblock %}

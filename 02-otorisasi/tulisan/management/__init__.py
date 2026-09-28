@@ -1,0 +1,1 @@
+# Paket perintah manage.py.

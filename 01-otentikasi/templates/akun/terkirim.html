@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block judul %}Tautan dicetak{% endblock %}
+{% block isi %}
+  <h2>Lihat terminal server</h2>
+  <p>Jika surel itu milik akun, tautan setel ulang sudah tercetak di jendela <code>runserver</code>. Buka tautan itu di browser ini.</p>
+{% endblock %}
+{% block catatan %}
+  <h2>Di produksi</h2>
+  <p>Backend surel diganti dari konsol ke SMTP. Isi pesannya tetap sama: tautan sekali pakai yang kedaluwarsa.</p>
+{% endblock %}

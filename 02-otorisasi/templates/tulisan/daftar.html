@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block isi %}
+  <h2>Tulisan</h2>
+  <form method="post" action="{% url 'masuk_latihan' %}" class="baris">
+    {% csrf_token %}
+    <label>
+      Akun latihan
+      <select name="akun">
+        <option value="pembaca">Pembaca</option>
+        <option value="penulis">Penulis</option>
+        <option value="penerbit">Penerbit</option>
+      </select>
+    </label>
+    <button type="submit">Masuk sebagai peran ini</button>
+  </form>
+  {% if user.is_authenticated %}
+    <form method="post" action="{% url 'keluar' %}">
+      {% csrf_token %}
+      <button class="sunyi" type="submit">Keluar</button>
+    </form>
+  {% endif %}
+  {% if boleh_buat %}
+    <p><a class="tombol" href="{% url 'buat' %}">Tulis draf</a></p>
+  {% endif %}
+  <div class="gulir">
+    <table>
+      <thead>
+        <tr><th>Judul</th><th>Penulis</th><th>Status</th></tr>
+      </thead>
+      <tbody>
+        {% for item in tulisan %}
+          <tr>
+            <td><a href="{% url 'rinci' item.pk %}">{{ item.judul }}</a></td>
+            <td>{{ item.penulis.get_username }}</td>
+            <td>{{ item.get_status_display }}</td>
+          </tr>
+        {% empty %}
+          <tr><td colspan="3">Tidak ada tulisan yang boleh Anda lihat.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}
+{% block catatan %}
+  <h2>Tiga peran</h2>
+  <ul>
+    <li>Pembaca hanya melihat yang sudah terbit.</li>
+    <li>Penulis membuat draf dan menyunting miliknya.</li>
+    <li>Penerbit menyunting siapa pun, menerbitkan, dan menghapus.</li>
+  </ul>
+  <p>Superuser di <code>/admin/</code> (<code>admin</code> / <code>belajar-admin</code>) melewati semua izin. Jangan pakai akun itu untuk memahami peran.</p>
+{% endblock %}

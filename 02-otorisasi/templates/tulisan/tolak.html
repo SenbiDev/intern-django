@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block judul %}Tidak diizinkan{% endblock %}
+{% block isi %}
+  <h2>Tidak diizinkan</h2>
+  <div class="galat">{{ alasan }}</div>
+  {% if pemeriksaan %}
+    <div class="gulir">
+      <table>
+        <thead><tr><th>Pemeriksaan</th><th>Hasil</th></tr></thead>
+        <tbody>
+          {% for nama, lolos in pemeriksaan %}
+            <tr>
+              <td>{{ nama }}</td>
+              <td>{% if lolos %}ya{% else %}tidak{% endif %}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% endif %}
+  <p><a class="tombol sunyi" href="{% url 'daftar' %}">Kembali ke daftar</a></p>
+{% endblock %}
+{% block catatan %}
+  <h2>403, bukan 401</h2>
+  <p>401 berarti server belum tahu siapa Anda. 403 berarti server sudah tahu, dan peran itu tidak cukup. Draf orang lain menjawab 404 supaya keberadaannya tidak bocor.</p>
+{% endblock %}

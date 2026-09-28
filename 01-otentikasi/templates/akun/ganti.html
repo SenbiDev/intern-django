@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block judul %}Ganti kata sandi{% endblock %}
+{% block isi %}
+  <h2>Ganti kata sandi</h2>
+  <form method="post" class="tumpuk">
+    {% csrf_token %}
+    {% if form.non_field_errors %}<div class="galat">{{ form.non_field_errors }}</div>{% endif %}
+    <label>Kata sandi sekarang {{ form.old_password }} {{ form.old_password.errors }}</label>
+    <label>Kata sandi baru {{ form.new_password1 }} {{ form.new_password1.errors }}</label>
+    <label>Ulangi kata sandi baru {{ form.new_password2 }} {{ form.new_password2.errors }}</label>
+    <button type="submit">Simpan kata sandi</button>
+  </form>
+{% endblock %}
+{% block catatan %}
+  <h2>Sesi lain ikut mati</h2>
+  <p>Hash baru membuat sesi di browser lain tidak cocok lagi. Sesi yang sedang dipakai ini dipertahankan Django supaya Anda tidak terlempar keluar.</p>
+{% endblock %}
